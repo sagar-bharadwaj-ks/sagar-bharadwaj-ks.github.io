@@ -1,0 +1,111 @@
+{% include base_path %}
+
+<div class="publication">
+    <b class="publication-title">{{ post.title }}</b>
+    <p class="publication-venue">{{ post.venue }}</p>
+    <p class="publication-authors">
+        <span style="color: grey;">
+            {{ post.authors }}
+        </span>
+    </p>
+    <!-- <p class="publication-abstract">{{ post.abstract }}</p> -->
+
+    <div class="publication-buttons">
+        {% if post.paper_url %}
+        <a href="{{ post.paper_url }}" class="publication-button" target="_blank">
+            <i class="fas fa-file-alt"></i> Read Paper
+        </a>
+        {% endif %}
+
+        {% if post.slides_url %}
+        <a href="{{ post.slides_url }}" class="publication-button" target="_blank">
+            <i class="fas fa-slideshare"></i> Slides
+        </a>
+        {% endif %}
+
+        {% if post.video_url %}
+        <a href="{{ post.video_url }}" class="publication-button" target="_blank">
+            <i class="fas fa-video"></i> Video
+        </a>
+        {% endif %}
+
+        {% if post.website_url %}
+        <a href="{{ post.website_url }}" class="publication-button" target="_blank">
+            <i class="fas fa-globe"></i> Website
+        </a>
+        {% endif %}
+
+        {% if post.github_url %}
+        <a href="{{ post.github_url }}" class="publication-button" target="_blank">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .publication {
+        margin-bottom: 1em;
+        padding: 1em;
+        /* border-radius: 8px; */
+        /* background-color: #f9f9f9; */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .publication:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .publication-title {
+        font-size: 1em !important;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+    }
+
+    .publication-authors {
+        font-size: 0.8em !important;
+        margin-bottom: 1em;
+    }
+
+    .publication-venue {
+        font-size: 0.8em !important;
+        margin-bottom: 0.5em !important;
+    }
+
+    .publication-abstract {
+        font-size: 1em;
+        margin-bottom: 1.5em;
+    }
+
+    .publication-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+
+    .publication-button {
+        text-decoration: none !important;
+        color: white;
+        background-color: #5dade2;
+        padding: 0.4em 0.8em;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 0.85em;
+        font-weight: bold;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .publication-button:hover {
+        background-color: #3498db;
+        text-decoration: none !important;
+    }
+
+    .publication-button i {
+        font-size: 0.9em;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
