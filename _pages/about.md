@@ -7,6 +7,8 @@ redirect_from:
   - /about.html
 ---
 
+{% include base_path %}
+
 # About
 
 I am a **PhD student** in the Computer Science department at **Carnegie Mellon University**. I am advised by [Prof. Srinivasan Seshan](https://www.cs.cmu.edu/~srini/) and [Prof. Anthony Rowe](https://users.ece.cmu.edu/~agr/). 
@@ -15,7 +17,10 @@ I am working on building a world-scale federated localization and mapping system
 
 <p align="center">
   <a href="https://openflam.github.io/">
-    <img src="images/openflame_logo.png" alt="OpenFLAME Logo" width="200"/>
+    <img src= 
+      "{{ "/images/openflame_logo.png" | prepend: base_path }}"
+      alt="OpenFLAME Logo" 
+      width="200"/>
   </a>
 </p>
 
@@ -29,8 +34,12 @@ I also worked with **Netflix** on designing the bitrate ladder algorithm for 2D 
   {% endif %}
 {% endfor %}
 
-[See all publications](/publications/)
+[See all publications]({{ "/publications/" | prepend: base_path }})
 
 # Experience
 
-
+{% for post in site.experience reversed %}
+  {% if post.selected %}
+    {% include single-experience.html post=post %}
+  {% endif %}
+{% endfor %}
