@@ -7,4 +7,4 @@ daterange: "July 2019 - July 2021"
 selected: true
 ---
 
-I worked on disocvering data at scale (scale of several petabytes) and optimizing inter-datacenter networks spanning the globe.
+Worked on disocvering data at scale (scale of several petabytes) and optimizing inter-datacenter networks spanning the globe.

@@ -43,3 +43,5 @@ I also worked with **Netflix** on designing the bitrate ladder algorithm for 2D 
     {% include single-experience.html post=post %}
   {% endif %}
 {% endfor %}
+
+[See all experiences]({{ "/experience/" | prepend: base_path }})

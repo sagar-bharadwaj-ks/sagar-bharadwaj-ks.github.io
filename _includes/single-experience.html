@@ -4,13 +4,8 @@
     <div class="job-experience-tile">
         <!-- Logo on the far left -->
         <div class="job-experience-logo">
-            <img src=
-            {% if post.logourl contains "://" %} 
-                "{{ post.logourl }}" 
-            {% else %} 
-                "{{ post.logourl | prepend: base_path }}" 
-            {% endif %} 
-            alt="{{ post.company }} logo">
+            <img src={% if post.logourl contains "://" %} "{{ post.logourl }}" {% else
+                %} "{{ post.logourl | prepend: base_path }}" {% endif %} alt="{{ post.company }} logo">
         </div>
 
         <!-- Details -->
@@ -50,8 +45,8 @@
     }
 
     .job-experience-logo img {
-        height: 80px;
-        width: auto;
+        height: auto;
+        width: 80px;
         max-width: 100%;
         object-fit: contain;
     }
