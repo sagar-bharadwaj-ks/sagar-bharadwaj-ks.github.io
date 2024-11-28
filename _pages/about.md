@@ -15,7 +15,7 @@ I am working on building a world-scale federated localization and mapping system
 
 <p align="center">
   <a href="https://openflam.github.io/">
-    <img src="/images/openflame_logo.png" alt="OpenFLAME Logo" width="200"/>
+    <img src="images/openflame_logo.png" alt="OpenFLAME Logo" width="200"/>
   </a>
 </p>
 
