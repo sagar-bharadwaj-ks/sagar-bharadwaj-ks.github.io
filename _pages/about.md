@@ -24,7 +24,7 @@ I am working on building a world-scale federated localization and mapping system
   </a>
 </p>
 
-I also worked with **Netflix** on designing the bitrate ladder algorithm for 2D video streaming that is in the process of being deployed for millions of subscribers. Previously, I worked at **Microsoft Research** on building a [large-scale data discovery framework](https://www.vldb.org/pvldb/vol14/p1392-bharadwaj.pdf) and [optimizing inter-datacenter network](https://www.usenix.org/system/files/nsdi22-paper-sharma.pdf).
+I also worked with **Netflix** on designing the bitrate ladder algorithm for 2D video streaming that is in the process of being deployed. Previously, I worked at **Microsoft Research** on building a [large-scale data discovery framework](https://www.vldb.org/pvldb/vol14/p1392-bharadwaj.pdf) and [optimizing inter-datacenter network](https://www.usenix.org/system/files/nsdi22-paper-sharma.pdf).
 
 # Select Publications
 
