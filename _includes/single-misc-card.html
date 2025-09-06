@@ -19,6 +19,12 @@
     </p>
 
     <div class="misc-buttons">
+        {% if post.pdf-url %}
+        <a href={{ post.pdf-url | prepend: base_path }} class="misc-button">
+            <i class="fas fa-file-pdf"></i> Read
+        </a>
+
+        {% else %}
         <a href={{ post.url | prepend: base_path }} class="misc-button">
 
             {% if post.tags contains "blog" %}
@@ -36,6 +42,7 @@
             {% endif %}
 
         </a>
+        {% endif %}
     </div>
 </div>
 
