@@ -1,0 +1,132 @@
+{% include base_path %}
+
+<div class="misc-card">
+    <b class="misc-title">{{ post.title }}</b>
+
+    {% if post.tags %}
+    <div class="misc-tags">
+        {% for tag in post.tags %}
+        <span class="misc-tag" data-tag="{{ tag | slugify }}">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <p class="misc-date">{{ post.date | date: "%-d %B %Y" }}</p>
+    <p class="misc-abstract">
+        <span style="color: grey;">
+            {{ post.abstract }}
+        </span>
+    </p>
+
+    <div class="misc-buttons">
+        <a href={{ post.url | prepend: base_path }} class="misc-button">
+
+            {% if post.tags contains "blog" %}
+            <i class="fas fa-book-open"></i> Read Blog
+
+            {% elsif post.tags contains "story" %}
+            <i class="fas fa-masks-theater"></i> Read Story
+
+            {% elsif post.tags contains "art" %}
+            <i class="fas fa-paint-brush"></i> See Art
+
+            {% else %}
+            <i class="fas fa-book-open"></i> Read
+
+            {% endif %}
+
+        </a>
+    </div>
+</div>
+
+<style>
+    .misc-card {
+        margin-bottom: 1em;
+        padding: 1em;
+        /* border-radius: 8px; */
+        /* background-color: #f9f9f9; */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .misc-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .misc-title {
+        font-size: 1em !important;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+    }
+
+    .misc-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+
+    .misc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 1em;
+        margin-top: 0.5em;
+    }
+
+    .misc-tag {
+        display: inline-block;
+        padding: 0.2em 0.6em;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        color: white;
+        background-color: #3498db;
+        transition: all 0.3s ease;
+    }
+
+    .misc-tag:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Different colors for different tags */
+    .misc-tag[data-tag*="technical"] {
+        background-color: #ed9187;
+    }
+
+    .misc-tag[data-tag*="blog"] {
+        background-color: #9b72ab;
+    }
+
+    .misc-tag[data-tag*="art"] {
+        background-color: #60ab6e;
+    }
+
+    .misc-tag[data-tag*="story"] {
+        background-color: #baad5d;
+    }
+
+    .misc-button {
+        text-decoration: none !important;
+        color: white;
+        background-color: #5dade2;
+        padding: 0.4em 0.8em;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 0.85em;
+        font-weight: bold;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .misc-button:hover {
+        background-color: #3498db;
+        text-decoration: none !important;
+    }
+
+    .misc-button i {
+        font-size: 0.9em;
+    }
+</style>
