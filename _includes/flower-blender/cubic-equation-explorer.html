@@ -1,0 +1,355 @@
+<!-- Cubic Explorer Widget Wrapper -->
+<div id="cew-scope-wrapper">
+    <!-- Tailwind Configuration to prevent global style resets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
+
+    <style>
+        #cew-scope-wrapper .cew-slider-label {
+            display: inline-block;
+            width: 1rem;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        #cew-scope-wrapper .cew-graph-canvas {
+            touch-action: none;
+            display: block;
+            width: 100%;
+        }
+
+        /* Remove arrows/spinners from number inputs specifically for this widget */
+        #cew-scope-wrapper input::-webkit-outer-spin-button,
+        #cew-scope-wrapper input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #cew-scope-wrapper input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Scoped Font settings to ensure consistency with your blog */
+        #cew-scope-wrapper {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+    </style>
+
+    <div id="cew-widget-container"
+        class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden text-gray-900 my-8">
+        <!-- Equation Display -->
+        <div class="p-4 border-b border-gray-100 bg-gray-50 border-0 border-b border-solid">
+            <div id="cew-equation-display" class="text-2xl font-serif text-center py-2 text-green-600">
+                y = ax³ + bx² + cx + d
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row">
+            <!-- Graph Area -->
+            <div class="flex-grow p-4 bg-white relative">
+                <canvas id="cew-graphCanvas"
+                    class="cew-graph-canvas h-80 rounded-lg bg-white border border-gray-100 border-solid"></canvas>
+                <div
+                    class="absolute bottom-6 right-6 text-[10px] text-gray-400 pointer-events-none text-right leading-tight">
+                    Drag to pan • Scroll to zoom<br>
+                    Shift + Scroll: Zoom X • Alt + Scroll: Zoom Y
+                </div>
+            </div>
+
+            <!-- Controls Area -->
+            <div
+                class="w-full md:w-64 p-6 bg-gray-50 space-y-6 border-0 border-t md:border-t-0 md:border-l border-gray-100 border-solid">
+                <!-- Coefficient A -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-medium text-gray-600"><span class="cew-slider-label">a</span></label>
+                        <input type="number" id="cew-num-a" step="0.1" value="1.0"
+                            class="w-16 px-1 text-right text-sm font-mono font-bold text-green-600 bg-white border border-gray-200 border-solid rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <input type="range" id="cew-input-a" min="-10" max="10" step="0.1" value="1"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600">
+                </div>
+
+                <!-- Coefficient B -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-medium text-gray-600"><span class="cew-slider-label">b</span></label>
+                        <input type="number" id="cew-num-b" step="0.1" value="0.0"
+                            class="w-16 px-1 text-right text-sm font-mono font-bold text-green-600 bg-white border border-gray-200 border-solid rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <input type="range" id="cew-input-b" min="-10" max="10" step="0.1" value="0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600">
+                </div>
+
+                <!-- Coefficient C -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-medium text-gray-600"><span class="cew-slider-label">c</span></label>
+                        <input type="number" id="cew-num-c" step="0.1" value="0.0"
+                            class="w-16 px-1 text-right text-sm font-mono font-bold text-green-600 bg-white border border-gray-200 border-solid rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <input type="range" id="cew-input-c" min="-10" max="10" step="0.1" value="0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600">
+                </div>
+
+                <!-- Coefficient D -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm font-medium text-gray-600"><span class="cew-slider-label">d</span></label>
+                        <input type="number" id="cew-num-d" step="0.5" value="0.0"
+                            class="w-16 px-1 text-right text-sm font-mono font-bold text-green-600 bg-white border border-gray-200 border-solid rounded focus:outline-none focus:ring-1 focus:ring-green-500">
+                    </div>
+                    <input type="range" id="cew-input-d" min="-10" max="10" step="0.5" value="0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600">
+                </div>
+
+                <button id="cew-reset-btn"
+                    class="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 border-none rounded cursor-pointer transition-colors text-sm font-semibold">
+                    Reset View
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            (function () {
+                const canvas = document.getElementById('cew-graphCanvas');
+                const ctx = canvas.getContext('2d');
+                const eqDisplay = document.getElementById('cew-equation-display');
+
+                let coeffs = { a: 1, b: 0, c: 0, d: 0 };
+
+                let view = {
+                    offsetX: null,
+                    offsetY: null,
+                    scaleX: 180,
+                    scaleY: 90
+                };
+
+                let isDragging = false;
+                let lastMousePos = { x: 0, y: 0 };
+
+                function updateEquationText() {
+                    const format = (val, label, isFirst = false) => {
+                        if (val === 0) return "";
+                        let sign = val > 0 ? (isFirst ? "" : " + ") : (isFirst ? "-" : " - ");
+                        let absVal = Math.abs(val);
+                        let num = absVal === 1 && label !== "" ? "" : absVal.toFixed(1);
+                        return `${sign}${num}${label}`;
+                    };
+
+                    let parts = [
+                        format(coeffs.a, "x³", true),
+                        format(coeffs.b, "x²"),
+                        format(coeffs.c, "x"),
+                        format(coeffs.d, "")
+                    ].filter(p => p !== "");
+
+                    eqDisplay.innerHTML = parts.length > 0 ? "y = " + parts.join("") : "y = 0";
+                }
+
+                function getStep(scale) {
+                    if (scale < 15) return 10;
+                    if (scale < 30) return 5;
+                    if (scale < 50) return 2;
+                    return 1;
+                }
+
+                function centerOnMathRange(w, h) {
+                    view.offsetX = (w / 2) - (0.5 * view.scaleX);
+                    view.offsetY = (h / 2) + (0.5 * view.scaleY);
+                }
+
+                function draw() {
+                    const rect = canvas.getBoundingClientRect();
+                    if (canvas.width !== rect.width || canvas.height !== rect.height) {
+                        canvas.width = rect.width;
+                        canvas.height = rect.height;
+                        if (view.offsetX === null) {
+                            centerOnMathRange(canvas.width, canvas.height);
+                        }
+                    }
+
+                    const w = canvas.width;
+                    const h = canvas.height;
+                    const { offsetX, offsetY, scaleX, scaleY } = view;
+
+                    ctx.clearRect(0, 0, w, h);
+
+                    ctx.strokeStyle = '#f3f4f6';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    for (let x = offsetX % scaleX; x < w; x += scaleX) {
+                        ctx.moveTo(x, 0); ctx.lineTo(x, h);
+                    }
+                    for (let y = offsetY % scaleY; y < h; y += scaleY) {
+                        ctx.moveTo(0, y); ctx.lineTo(w, y);
+                    }
+                    ctx.stroke();
+
+                    ctx.strokeStyle = '#d1d5db';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(0, offsetY); ctx.lineTo(w, offsetY);
+                    ctx.moveTo(offsetX, 0); ctx.lineTo(offsetX, h);
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#9ca3af';
+                    ctx.font = '10px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
+
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    const stepX = getStep(scaleX);
+                    const startX = Math.floor(-offsetX / scaleX);
+                    const endX = Math.ceil((w - offsetX) / scaleX);
+                    for (let i = startX; i <= endX; i++) {
+                        if (i % stepX === 0 && i !== 0) {
+                            const px = offsetX + i * scaleX;
+                            ctx.fillText(i, px, offsetY + 5);
+                        }
+                    }
+
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'middle';
+                    const stepY = getStep(scaleY);
+                    const startY = Math.floor((offsetY - h) / scaleY);
+                    const endY = Math.ceil(offsetY / scaleY);
+                    for (let i = startY; i <= endY; i++) {
+                        if (i % stepY === 0 && i !== 0) {
+                            const py = offsetY - i * scaleY;
+                            ctx.fillText(i, offsetX - 5, py);
+                        }
+                    }
+
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.lineJoin = 'round';
+                    ctx.beginPath();
+
+                    let started = false;
+                    for (let px = 0; px < w; px++) {
+                        const x = (px - offsetX) / scaleX;
+                        const y = coeffs.a * Math.pow(x, 3) + coeffs.b * Math.pow(x, 2) + coeffs.c * x + coeffs.d;
+                        const py = offsetY - (y * scaleY);
+
+                        if (py >= -500 && py <= h + 500) {
+                            if (!started) {
+                                ctx.moveTo(px, py);
+                                started = true;
+                            } else {
+                                ctx.lineTo(px, py);
+                            }
+                        } else {
+                            started = false;
+                        }
+                    }
+                    ctx.stroke();
+                }
+
+                ['a', 'b', 'c', 'd'].forEach(id => {
+                    const range = document.getElementById(`cew-input-${id}`);
+                    const number = document.getElementById(`cew-num-${id}`);
+
+                    const update = (val) => {
+                        const cleanVal = isNaN(val) ? 0 : val;
+                        coeffs[id] = cleanVal;
+                        updateEquationText();
+                        draw();
+                    };
+
+                    range.addEventListener('input', (e) => {
+                        const val = parseFloat(e.target.value);
+                        number.value = val.toFixed(1);
+                        update(val);
+                    });
+
+                    number.addEventListener('input', (e) => {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val)) {
+                            range.value = val;
+                            update(val);
+                        }
+                    });
+
+                    number.addEventListener('blur', (e) => {
+                        if (e.target.value === "" || isNaN(parseFloat(e.target.value))) {
+                            e.target.value = coeffs[id].toFixed(1);
+                        }
+                    });
+                });
+
+                document.getElementById('cew-reset-btn').addEventListener('click', () => {
+                    view.scaleX = 180;
+                    view.scaleY = 90;
+                    centerOnMathRange(canvas.width, canvas.height);
+                    draw();
+                });
+
+                canvas.addEventListener('mousedown', e => {
+                    isDragging = true;
+                    lastMousePos = { x: e.clientX, y: e.clientY };
+                });
+
+                window.addEventListener('mousemove', e => {
+                    if (!isDragging) return;
+                    view.offsetX += e.clientX - lastMousePos.x;
+                    view.offsetY += e.clientY - lastMousePos.y;
+                    lastMousePos = { x: e.clientX, y: e.clientY };
+                    draw();
+                });
+
+                window.addEventListener('mouseup', () => isDragging = false);
+
+                canvas.addEventListener('wheel', e => {
+                    e.preventDefault();
+                    const delta = e.deltaY || e.deltaX;
+                    const factor = Math.exp(-delta * 0.001);
+                    const rect = canvas.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+
+                    const mathX = (mouseX - view.offsetX) / view.scaleX;
+                    const mathY = (view.offsetY - mouseY) / view.scaleY;
+
+                    if (e.shiftKey) {
+                        view.scaleX = Math.max(2, Math.min(view.scaleX * factor, 2000));
+                    } else if (e.altKey) {
+                        view.scaleY = Math.max(2, Math.min(view.scaleY * factor, 2000));
+                    } else {
+                        view.scaleX = Math.max(2, Math.min(view.scaleX * factor, 2000));
+                        view.scaleY = Math.max(2, Math.min(view.scaleY * factor, 2000));
+                    }
+
+                    view.offsetX = mouseX - mathX * view.scaleX;
+                    view.offsetY = mouseY + mathY * view.scaleY;
+
+                    draw();
+                }, { passive: false });
+
+                canvas.addEventListener('touchstart', e => {
+                    if (e.touches.length === 1) {
+                        isDragging = true;
+                        lastMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    }
+                });
+                canvas.addEventListener('touchmove', e => {
+                    if (!isDragging || e.touches.length !== 1) return;
+                    view.offsetX += e.touches[0].clientX - lastMousePos.x;
+                    view.offsetY += e.touches[0].clientY - lastMousePos.y;
+                    lastMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    draw();
+                });
+                canvas.addEventListener('touchend', () => isDragging = false);
+
+                window.addEventListener('resize', draw);
+                updateEquationText();
+                draw();
+            })();
+    </script>
+</div>
