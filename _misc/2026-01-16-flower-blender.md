@@ -5,12 +5,12 @@ date:   2026-01-16
 permalink: /misc/flower-blender/
 author_profile: true
 tags: ["technical", "blog"]
-abstract: I abstract flowers into a set parameters -- parameters that describe floral charateristics such as petal shape, petal droop, color, number of whorls, sepals, stamen, anther, pistil etc. I use Geometry Nodes in Blender to convert these parameters (about 100 of them) into 3D flower models. 
+abstract: I abstract flowers into a set of parameters that describe floral charateristics such as petal shape, petal droop, color, number of whorls, sepals, stamen, anther, pistil etc. I use Geometry Nodes in Blender to convert these parameters (about 100 of them) into 3D flower models. 
 ---
 
 {{ page.date | date: "%-d %B %Y" }}
 
-Flowers, with their slew of admirers and watchers, are the A-listers of nature. While it does seem like we are bestowed with an infinite variety of flowers, notice that you can describe most flowers by specifying a finite number of floral characteristics -- the shape of the petal, its color, number of petals, the shape and the number of stamen, color of anthers, thickness of the style, and so on. I took up this side-project to see if I could distill a large class of flowers down into a smallish number of characteristics or *parameters*, and use these to synthesize and render 3D models of flowers in [Blender](https://www.blender.org/) -- an open-source 3D computer graphics software. (I also used this opportunity to learn Geomety Nodes in Blender -- a "system for modifying the geometry of an object with node-based operations".)
+It seems like we are bestowed with an infinite variety of flowers. However, notice that you can describe most flowers by specifying a finite number of floral characteristics, such as, the shape of the petal, its color, number of petals, the shape and the number of stamen, color of anthers, thickness of the style, and so on. I took up this side-project to see if I could distill a large class of flowers down into a small number of characteristics or *parameters*, and use these to synthesize and render 3D models of flowers in [Blender](https://www.blender.org/), an open-source 3D computer graphics software. (I also used this opportunity to learn Geomety Nodes in Blender, a "system for modifying the geometry of an object with node-based operations".)
 
 Before we start, below are some of the flowers that were created using the method described in this post. 
 
@@ -68,7 +68,16 @@ A cubic function of the form $$ ax^3 + bx^2 + cx + d $$ is composed of three sim
   <img src="/images/flower_blender/cubic-flowchart.jpg" alt="Cubic function represented as nodes." style="max-width: 700px;">
 </figure>
 
-Blender's geometry nodes provides some nodes that generate geometry. Here, we use 
+Blender's geometry nodes provides some nodes that generate *geometry*. For example, the [Curve to Mesh Node](https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/curve/operations/curve_to_mesh.html) generates a 3D Mesh (i.e., a set of 3D points, edges, and faces) given a curve. I will not go into the details of Blender's geometry nodes here. There could perhaps be books written about it, if you care to search. But the gist of it all is that I use Blender geometry nodes to model cubic functions and then to turn them into 3D geometry.
+
+## Petal Droop
+
+Notice that different petals have different shapes of droop. For example, daisy petals shoot up from their central disk and stay upright, whereas Hibiscus petals seem to droop down toward the edges when they are in full bloom. I modelled the droop also as cubic functions. The cubic function, in this case, is used to influence the droop of the 3D petal resulting from the operations described previously. 
+
+See the Glossary section below for a desription of other parameters. 
+
+If you are still confused by all this, remember that life is larger than reading and understanding random blogposts. Stop to smell some flowers next time you see them!
+
 
 # Glossary
 
