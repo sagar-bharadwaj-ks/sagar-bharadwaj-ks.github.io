@@ -15,7 +15,7 @@ It seems like we are bestowed with an infinite variety of flowers. However, noti
 Before we start, below are some of the flowers that were created using the method described in this post. 
 
 <figure>
-  <img src="/images/flower_blender/all.jpg" alt="Collection of flowers modelled in Blender" style="max-width: 700px;">
+  <img src="/images/flower_blender/All.jpg" alt="Collection of flowers modelled in Blender" style="max-width: 700px;">
 </figure>
 
 While I did this weekend(s) project out of curiosity and as a monotony breaking exercise, modeling flowers this way has a very practical application: once you have the model, you can go from one flower to another without having to redraw or remodel it from scratch. All you have to do is change a few numbers (i.e., parameters) and you have a new flower. For example, the video below shows how you can go from a daisy to a hibiscus by changing the values of a few parameters like the shape of the petal, number of petals, length of the style, color etc. You can imagine how convenient this would be in a movie CGI studio, for example, that needs to make hundreds of different flowers for a garden scene. 
