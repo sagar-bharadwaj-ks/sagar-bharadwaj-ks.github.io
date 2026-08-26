@@ -1,7 +1,7 @@
 ---
 title: "OpenFLAME: A Federated Spatial Naming Infrastructure"
 authors: "<b>Sagar Bharadwaj</b>, Ziyong Ma, Ivan Liang, Michael Farb, Anthony Rowe Srinivasan Seshan"
-paper_url: 'https://nines-conference.org/papers/p020-Bharadwaj.pdf'
+paper_url: 'https://2026.nines-conference.org/papers/p020-Bharadwaj.pdf'
 website_url: 'https://open-flame.com/'
 github_url: 'https://github.com/orgs/openflam/repositories'
 venue: "NINeS, 2026"
