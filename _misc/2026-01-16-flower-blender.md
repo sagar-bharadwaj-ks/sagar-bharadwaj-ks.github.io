@@ -76,7 +76,7 @@ Notice that different petals have different shapes of droop. For example, daisy 
 
 See the Glossary section below for a desription of other parameters. 
 
-If you are still confused by all this, remember that life is larger than reading and understanding random blogposts. Stop to smell some flowers next time you see them!
+If you are still confused by all this, remember that life is larger than reading and understanding random blogposts. To reward you for reading this post, [here is the Blender file](https://drive.google.com/file/d/1Nmm-XkGOTUv9k0qdUXk_uxSoRUZWLseO/view?usp=sharing) with the entire geometry nodes setup. It has parameters for many flowers and the transitions between them. Feel free to use it, at no cost, for whatever purpose you wish. If you do end up downloading and using it, shoot me an email to let me know and I'll be happy! Stop to smell some flowers next time you see them! 
 
 
 # Glossary
